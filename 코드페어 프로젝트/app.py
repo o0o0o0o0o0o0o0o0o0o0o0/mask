@@ -1,10 +1,10 @@
 from flask import Flask, request
-import getUserInfo
+import getUserInfo as gui
 
 app = Flask(__name__)
 @app.route("/users" , methods=["GET"])
 def users():
-    p = getUserInfo.getIdPass()
+    p = gui.getIdPass()
     message = {
         "result":p
     }
@@ -12,7 +12,7 @@ def users():
 
 @app.route("/users/by-condition" , methods=["GET"])
 def usersByCondition():
-    p = getUserInfo.getIdPassByCondition(request.args.get("id"))
+    p = gui.getIdPassByCondition(request.args.get("id"))
     print(p)
     message = {
         "result":p
