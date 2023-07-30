@@ -24,8 +24,7 @@ def getIdPassByCondition(Id):
 
     cur = conn.cursor()
 
-    sql = "select id, pw from members where `id` like '%s%'" % (Id)
-
+    sql = "select id, pw from members where `id` like '%" + Id + "%'"
     cur.execute(sql)
 
     total = []
