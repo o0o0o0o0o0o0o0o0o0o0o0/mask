@@ -17,13 +17,13 @@ def login(id, password) :
 
 def join (id, pw) :
     f = True
-    compareCommand = "select * from members where id = %s"
+    compareCommand = "select * from memberInformations where id = %s"
     cur.execute(compareCommand, (id))
     for i in cur :
         f = False
         print('아이디가 중복 됩니다')
     if f: 
-        insertCommand = "insert into `mask`.`members` values(%s, %s);"
+        insertCommand = "insert into `mask`.`memberInformations` values(%s, %s);"
         cur.execute(insertCommand, (id, pw))
         conn.commit()
     
