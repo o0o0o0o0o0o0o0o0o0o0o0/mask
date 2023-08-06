@@ -5,7 +5,7 @@ def getIdPass():
 
     cur = conn.cursor()
 
-    sql = "select id, pw from members"
+    sql = "select id, pw from memberInformations"
 
     cur.execute(sql)
 
@@ -24,7 +24,7 @@ def getIdPassByCondition(Id):
 
     cur = conn.cursor()
 
-    sql = "select id, pw from members where `id` like '%" + Id + "%'"
+    sql = "select id, pw from memberInformations where `id` like '%" + Id + "%'"
     cur.execute(sql)
 
     total = []
@@ -37,3 +37,10 @@ def getIdPassByCondition(Id):
         total.append(result)
     
     return total
+
+def postMemberSignUp(id, pw, tel, sex, age) :
+    cur = conn.cursor()
+    sql = "insert into `mask`.`memberInformations` values (" + id + ", " + pw, ", " + tel, ", " +  sex, ", " +  age + ");"
+    cur.execute(sql)
+
+    return
