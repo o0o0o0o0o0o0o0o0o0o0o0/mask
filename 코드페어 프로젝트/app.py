@@ -19,8 +19,15 @@ def usersByCondition():
     }
     return message
 
+@app.route("/users/signup" , methods=["POST"])
+def usersByCondition():
+    p = gui.getIdPassByCondition(request.args.get("id"))
+    print(p)
+    message = {
+        "result":p
+    }
+    return message
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-
-    #문자 일부만 검색해도 나오게 하기
