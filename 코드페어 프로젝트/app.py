@@ -20,8 +20,9 @@ def usersByCondition():
     return message
 
 @app.route("/users/signup" , methods=["POST"])
-def usersByCondition():
-    p = gui.getIdPassByCondition(request.args.get("id"))
+def usersSignup():
+    print(request.args.get("id"))
+    p = gui.postMemberSignUp(request.args.get("id"), request.args.get("pw"), request.args.get("tel"), request.args.get("sex"), request.args.get("age"))
     print(p)
     message = {
         "result":p
