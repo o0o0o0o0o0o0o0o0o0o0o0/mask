@@ -5,7 +5,7 @@ def getIdPass():
 
     cur = conn.cursor()
 
-    sql = "select id, pw from memberInformations"
+    sql = "select * from memberInformations"
 
     cur.execute(sql)
 
@@ -15,6 +15,9 @@ def getIdPass():
         result = {}
         result["id"] = i[0]
         result["password"] = i[1]
+        result["tel"] = i[2]
+        result["sex"] = i[3]
+        result["age"] = i[4]
 
         total.append(result)
     
@@ -24,7 +27,7 @@ def getIdPassByCondition(Id):
 
     cur = conn.cursor()
 
-    sql = "select id, pw from memberInformations where `id` like '%" + Id + "%'"
+    sql = "select * from memberInformations where `id` like '%" + Id + "%'"
     cur.execute(sql)
 
     total = []
@@ -33,6 +36,9 @@ def getIdPassByCondition(Id):
         result = {}
         result["id"] = i[0]
         result["password"] = i[1]
+        result["tel"] = i[2]
+        result["sex"] = i[3]
+        result["age"] = i[4]
 
         total.append(result)
     
@@ -40,7 +46,16 @@ def getIdPassByCondition(Id):
 
 def postMemberSignUp(id, pw, tel, sex, age) :
     cur = conn.cursor()
-    sql = "insert into `mask`.`memberInformations` values (" + id + ", " + pw, ", " + tel, ", " +  sex, ", " +  age + ");"
+    sql = f"insert into `mask`.`memberInformations`values ('{id}', '{pw}', {tel}, '{sex}', {age});"
+    print(sql)
     cur.execute(sql)
+    
+    return 'completion'
 
-    return
+def d() :
+    cur = conn.cursor()
+    sql = "DELETE FROM mask.memberInformations WHERE id = 'jungyun';"
+    print(sql)
+    cur.execute(sql)
+    
+    return 'completion'
