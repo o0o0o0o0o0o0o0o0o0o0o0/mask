@@ -52,6 +52,14 @@ def postMemberSignUp(id, pw, tel, sex, age) :
     
     return 'completion'
 
+def putChangeContent(id, mainAgent, changed) :
+    cur = conn.cursor()
+    sql = f"update `mask`.`memberInformations` set `{mainAgent}` = {changed} where `id` = {id}"
+    print(sql)
+    cur.execute(sql)
+    
+    return 'completion'
+
 def d() :
     cur = conn.cursor()
     sql = "DELETE FROM mask.memberInformations WHERE id = 'jungyun';"
