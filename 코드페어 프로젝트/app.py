@@ -30,13 +30,21 @@ def usersSignup():
 
 @app.route("/users/change" , methods=["PUT"])
 def usersChange():
-    p = gui.postMemberSignUp(request.args.get("id"), request.args.get("mainAgent"), request.args.get("changed"))
+    p = gui.putChangeContent(request.args.get("id"), request.args.get("mainAgent"), request.args.get("changed"))
     print(p)
     message = {
         "result":p
     }
     return message
 
+@app.route("/users/delete" , methods=["Delete"])
+def usersDelete():
+    p = gui.Delete(request.args.get("id"))
+    print(p)
+    message = {
+        "result":p
+    }
+    return message
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
