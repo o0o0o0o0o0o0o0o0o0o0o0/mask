@@ -54,15 +54,16 @@ def postMemberSignUp(id, pw, tel, sex, age) :
 
 def putChangeContent(id, mainAgent, changed) :
     cur = conn.cursor()
-    sql = f"update `mask`.`memberInformations` set `{mainAgent}` = {changed} where `id` = {id}"
+    if mainAgent == 'age' or mainAgent == 'tel' : sql = f"update `mask`.`memberInformations` set `{mainAgent}` = {changed} where `id` = '{id}';"
+    else: sql = f"update `mask`.`memberInformations` set `{mainAgent}` = '{changed}' where `id` = '{id}';"
     print(sql)
     cur.execute(sql)
     
     return 'completion'
 
-def d() :
+def Delete(id) :
     cur = conn.cursor()
-    sql = "DELETE FROM mask.memberInformations WHERE id = 'jungyun';"
+    sql = f"delete from `mask`.`memberInformations` where id = '{id}';"
     print(sql)
     cur.execute(sql)
     
