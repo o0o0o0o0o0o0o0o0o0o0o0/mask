@@ -21,8 +21,16 @@ def usersByCondition():
 
 @app.route("/users/signup" , methods=["POST"])
 def usersSignup():
-    print(request.args.get("id"))
     p = gui.postMemberSignUp(request.args.get("id"), request.args.get("pw"), request.args.get("tel"), request.args.get("sex"), request.args.get("age"))
+    print(p)
+    message = {
+        "result":p
+    }
+    return message
+
+@app.route("/users/change" , methods=["PUT"])
+def usersChange():
+    p = gui.postMemberSignUp(request.args.get("id"), request.args.get("mainAgent"), request.args.get("changed"))
     print(p)
     message = {
         "result":p
