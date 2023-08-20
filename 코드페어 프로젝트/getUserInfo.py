@@ -5,19 +5,20 @@ def getIdPass():
 
     cur = conn.cursor()
 
-    sql = "select * from memberInformations"
+    sql = "select * from members"
 
     cur.execute(sql)
 
     total = []
     
-    for i in cur:
+    for i in cur.fetchall():
         result = {}
         result["id"] = i[0]
-        result["password"] = i[1]
-        result["tel"] = i[2]
-        result["sex"] = i[3]
-        result["age"] = i[4]
+        result["userId"] = i[1]
+        result["password"] = i[2]
+        result["tel"] = i[3]
+        result["sex"] = i[4]
+        result["age"] = i[5]
 
         total.append(result)
     
@@ -27,7 +28,7 @@ def getIdPassByCondition(Id):
 
     cur = conn.cursor()
 
-    sql = "select * from memberInformations where `id` like '%" + Id + "%'"
+    sql = "select * from members where `id` like '%" + Id + "%'"
     cur.execute(sql)
 
     total = []
@@ -35,36 +36,37 @@ def getIdPassByCondition(Id):
     for i in cur:
         result = {}
         result["id"] = i[0]
-        result["password"] = i[1]
-        result["tel"] = i[2]
-        result["sex"] = i[3]
-        result["age"] = i[4]
+        result["userId"] = i[1]
+        result["password"] = i[2]
+        result["tel"] = i[3]
+        result["sex"] = i[4]
+        result["age"] = i[5]
 
         total.append(result)
     
     return total
 
-def postMemberSignUp(id, pw, tel, sex, age) :
+def postMemberSignUp(userid, pw, tel, sex, age) :
     cur = conn.cursor()
-    sql = f"insert into `mask`.`memberInformations`values ('{id}', '{pw}', {tel}, '{sex}', {age});"
-    print(sql)
+    sql = f"insert into `mask`.`members` values (null, '{userid}', '{pw}', {tel}, '{sex}', {age});"
+    
     cur.execute(sql)
     
     return 'completion'
 
 def putChangeContent(id, mainAgent, changed) :
     cur = conn.cursor()
-    if mainAgent == 'age' or mainAgent == 'tel' : sql = f"update `mask`.`memberInformations` set `{mainAgent}` = {changed} where `id` = '{id}';"
-    else: sql = f"update `mask`.`memberInformations` set `{mainAgent}` = '{changed}' where `id` = '{id}';"
-    print(sql)
+    if mainAgent == 'age' or mainAgent == 'tel' : sql = f"update `mask`.`members` set `{mainAgent}` = {int(changed)} where `id` = {id};"
+    else: sql = f"update `mask`.`members` set `{mainAgent}` = '{changed}' where `id` = {id};"
+    
     cur.execute(sql)
     
     return 'completion'
 
-def Delete(id) :
+def Delete(userid) :
     cur = conn.cursor()
-    sql = f"delete from `mask`.`memberInformations` where id = '{id}';"
-    print(sql)
+    sql = f"delete from `mask`.`members` where id = '{userid}';"
+    
     cur.execute(sql)
     
     return 'completion'
