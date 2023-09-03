@@ -48,25 +48,36 @@ def getIdPassByCondition(Id):
     return total
 
 def postMemberSignUp(userid, pw, tel, sex, age) :
-    if sex == 'w' or sex == 'm' :
-        if re.compile("^(01)\d{1}-\d{3,4}-\d{4}$").search(tel.replace(" ", "")) : 
-            cur = conn.cursor()
-            sql = f"insert into `mask`.`members` values (null, '{userid}', '{pw}', {tel}, '{sex}', {age});"
-            
-            cur.execute(sql)
-            
-            return 'completion'
-        else : return '전화번호 입력 형식은 [01X-XXX(X)-XXXX]입니다. 확인하세요.'
-    else : return '성별은 여성(w)과 남성(m)만 선택할 수 있습니다.'
+    if None in [userid, pw, tel, sex, age] :
+        return '값을 입력하세요.'
+    else :
+        if sex == 'w' or sex == 'm' :
+            if re.compile("^(01)\d{1}-\d{3,4}-\d{4}$").search(tel.replace(" ", "")) : 
+                cur = conn.cursor()
+                sql = f"insert into `mask`.`members` values (null, '{userid}', '{pw}', {tel}, '{sex}', {age});"
+                
+                cur.execute(sql)
+                
+                return 'completion'
+            else : return '전화번호 입력 형식은 [01X-XXX(X)-XXXX]입니다. 확인하세요.'
+        else : return '성별은 여성(w)과 남성(m)만 선택할 수 있습니다.'
 
 def putChangeContent(id, mainAgent, changed) :
     cur = conn.cursor()
-    if mainAgent == 'age' or mainAgent == 'tel' : sql = f"update `mask`.`members` set `{mainAgent}` = {int(changed)} where `id` = {id};"
-    else: sql = f"update `mask`.`members` set `{mainAgent}` = '{changed}' where `id` = {id};"
+    f = False
+    if None in [id, mainAgent, changed] :
+        return '값을 입력하세요.'
+    else :
+        if mainAgent == 'age' : sql = f"update `mask`.`members` set `{mainAgent}` = {int(changed)} where `id` = {id};"
+        else:
+            if bool(changed == ['w', 'm'] and mainAgent == 'sex') or bool(re.compile("^(01)\d{1}-\d{3,4}-\d{4}$").search(changed.replace(" ", "")) and mainAgent == 'tel') or mainAgent in ['userid, pw']:
+                f = True
+
+        if f :
+            sql = f"update `mask`.`members` set `{mainAgent}` = '{changed}' where `id` = {id};"
+            cur.execute(sql)
     
-    cur.execute(sql)
-    
-    return 'completion'
+            return 'completion'
 
 def Delete(userid) :
     cur = conn.cursor()
