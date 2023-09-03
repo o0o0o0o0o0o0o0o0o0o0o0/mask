@@ -102,5 +102,14 @@ def bulletinChange(id):
     }
     return message
 
+@app.route("/bulletin/delete/<int:id>" , methods=["DELETE"])
+def bulletinDelete(id):
+
+    p = bi.Delete(id)
+    message = {
+        "result":p
+    }
+    return message
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
