@@ -1,5 +1,6 @@
 from flask import Flask, request
 import getUserInfo as gui
+import bulletinInfo as bi
 
 app = Flask(__name__)
 @app.route("/users" , methods=["GET"])
@@ -50,6 +51,40 @@ def usersChange(id):
 def usersDelete(id):
     
     p = gui.Delete(id)
+    message = {
+        "result":p
+    }
+    return message
+
+#-----------------------------------------------------------------------------------------------------------------------------
+
+@app.route("/bulletin/by-condition/all", methods=["GET"])
+def bulletinByConditionA() :
+    p = bi.getInfoByConditionA()
+
+    message = {
+        "result":p
+    }
+    return message
+
+@app.route("/bulletin/by-condition/<string:category>/<string:search>", methods=["GET"])
+def bulletinByCondition(search, category) :
+    p = bi.getInfoByCondition(search, category)
+
+    message = {
+        "result":p
+    }
+    return message
+
+@app.route("/bulletin/add-bulletin/", methods=["POST"])
+def AddBulletin() :
+    request_body = request.get_json()
+    userId = request_body["userId"]
+    title = request_body["title"]
+    deliveryDueDate = request_body["deliveryDueDate"]
+    contents = request_body["contents"]
+
+    p = bi.postAddBulletin(userId, title, deliveryDueDate, contents)
     message = {
         "result":p
     }
