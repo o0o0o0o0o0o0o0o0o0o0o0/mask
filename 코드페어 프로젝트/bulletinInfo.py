@@ -70,3 +70,11 @@ def putChangeContent(id, mainAgent, changed) :
     cur.execute(sql)
 
     return 'completion'
+
+def Delete(id) :
+    cur = conn.cursor()
+    sql = f"delete from `mask`.`bulletin` where id = '{id}';"
+    
+    cur.execute(sql)
+    
+    return 'completion'
