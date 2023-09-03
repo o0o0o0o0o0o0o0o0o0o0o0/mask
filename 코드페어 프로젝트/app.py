@@ -90,5 +90,17 @@ def AddBulletin() :
     }
     return message
 
+@app.route("/bulletin/change/<int:id>" , methods=["PUT"])
+def bulletinChange(id):
+    requestBody = request.get_json()
+    mainAgent = requestBody["mainAgent"]
+    changed = requestBody["changed"]
+
+    p = bi.putChangeContent(id, mainAgent, changed)
+    message = {
+        "result":p
+    }
+    return message
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
