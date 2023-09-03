@@ -1,4 +1,5 @@
 import pymysql
+import re
 conn = pymysql.connect(host = "localhost", db = "mask", user ="root", password = "jennyyoon0814")
 
 def getIdPass():
@@ -47,12 +48,16 @@ def getIdPassByCondition(Id):
     return total
 
 def postMemberSignUp(userid, pw, tel, sex, age) :
-    cur = conn.cursor()
-    sql = f"insert into `mask`.`members` values (null, '{userid}', '{pw}', {tel}, '{sex}', {age});"
-    
-    cur.execute(sql)
-    
-    return 'completion'
+    if sex == 'w' or sex == 'm' :
+        if re.compile("^(01)\d{1}-\d{3,4}-\d{4}$").search(tel.replace(" ", "")) : 
+            cur = conn.cursor()
+            sql = f"insert into `mask`.`members` values (null, '{userid}', '{pw}', {tel}, '{sex}', {age});"
+            
+            cur.execute(sql)
+            
+            return 'completion'
+        else : return '전화번호 입력 형식은 [01X-XXX(X)-XXXX]입니다. 확인하세요.'
+    else : return '성별은 여성(w)과 남성(m)만 선택할 수 있습니다.'
 
 def putChangeContent(id, mainAgent, changed) :
     cur = conn.cursor()
