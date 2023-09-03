@@ -57,3 +57,16 @@ def postAddBulletin(userid, title, deliveryDueDate, contents) :
     cur.execute(sql)
     
     return 'completion'
+
+def putChangeContent(id, mainAgent, changed) :
+    now = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    cur = conn.cursor()
+    if mainAgent == 'title' or mainAgent == 'contents' : sql = f"update `mask`.`bulletin` set `{mainAgent}` = '{changed}' where `id` = {id};"
+    else: sql = f"update `mask`.`bulletin` set `{mainAgent}` = {int(changed)} where `id` = {id};"
+    
+    cur.execute(sql)
+    sql = f"update `mask`.`bulletin` set `updatedAt` = '{now}' where `id` = {id};"
+    cur.execute(sql)
+
+    return 'completion'
