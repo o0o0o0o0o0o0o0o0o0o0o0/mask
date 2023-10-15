@@ -58,17 +58,33 @@ def postAddBulletin(userid, title, deliveryDueDate, contents) :
     
     return 'completion'
 
-def putChangeContent(id, mainAgent, changed) :
-    now = datetime.datetime.now().strftime('%Y-%m-%d')
+def putChangeContent(id, request) :
+    # 기본적으로 update를 모든 필드를 바꾸게끔 (id만 빼고)
+    # id로 유저를 조회
 
     cur = conn.cursor()
-    if mainAgent == 'title' or mainAgent == 'contents' : sql = f"update `mask`.`bulletin` set `{mainAgent}` = '{changed}' where `id` = {id};"
-    else: sql = f"update `mask`.`bulletin` set `{mainAgent}` = {int(changed)} where `id` = {id};"
-    
-    cur.execute(sql)
-    sql = f"update `mask`.`bulletin` set `updatedAt` = '{now}' where `id` = {id};"
-    cur.execute(sql)
 
+    sql = f"select * from bulletin where `id` = {id}"
+    cur.execute(sql)
+    cur = tuple(cur)
+
+    base = {
+        "title":cur[0][2],
+        "updatedAt":cur[0][4],
+        "deliveryDueDate":cur[0][5],
+        "contents":cur[0][6],
+    }  
+
+    for key, value in request.items():
+        if key in base and bool(key != 'updatedAt' or key != 'createdAt'): 
+            base[key] = value
+
+    # userid, title, deliveryDueDate, contents
+    cur = conn.cursor()
+    now = datetime.datetime.now().strftime('%Y-%m-%d')
+    sql = f"update `mask`.`bulletin` set `title` = '{base['title']}', `updatedAt` = '{now}', `deliveryDueDate` = '{base['deliveryDueDate']}', `contents` = '{base['contents']}' where `id` = {id};"
+    cur.execute(sql)
+    
     return 'completion'
 
 def Delete(id) :
