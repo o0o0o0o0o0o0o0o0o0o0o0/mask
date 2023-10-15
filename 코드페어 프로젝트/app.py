@@ -38,16 +38,14 @@ def usersSignup():
 @app.route("/users/change/<int:id>" , methods=["PUT"])
 def usersChange(id):
     requestBody = request.get_json()
-    mainAgent = requestBody["mainAgent"]
-    changed = requestBody["changed"]
 
-    p = gui.putChangeContent(id, mainAgent, changed)
+    p = gui.putChangeContent(id, requestBody)
     message = {
         "result":p
     }
     return message
 
-@app.route("/users/delete/<int:id>" , methods=["Delete"])
+@app.route("/users/delete/<int:id>" , methods=["DELETE"])
 def usersDelete(id):
     
     p = gui.Delete(id)
@@ -93,10 +91,8 @@ def AddBulletin() :
 @app.route("/bulletin/change/<int:id>" , methods=["PUT"])
 def bulletinChange(id):
     requestBody = request.get_json()
-    mainAgent = requestBody["mainAgent"]
-    changed = requestBody["changed"]
 
-    p = bi.putChangeContent(id, mainAgent, changed)
+    p = bi.putChangeContent(id, requestBody)
     message = {
         "result":p
     }
